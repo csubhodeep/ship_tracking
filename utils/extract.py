@@ -9,7 +9,7 @@ import requests
 from configs import API_ENDPOINT_URL
 from configs import PATH_TO_DATA_FOLDER
 
-def get_vessel_data(config: Dict[str, Union[str, int]]) -> None:
+def get_ship_data(config: Dict[str, Union[str, int]]) -> None:
 	"""This function makes an API call to the marinetraffic endpoint and saves the data received as results on disk.
 	:param config: Its a dict of values to pass while making the API call
 	"""
@@ -31,4 +31,4 @@ if __name__ == "__main__":
 		"MMSI": "269057500"
 	}
 
-	get_vessel_data(config=config)
+	get_ship_data(config=config)
