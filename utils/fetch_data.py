@@ -1,4 +1,5 @@
 from json import dump
+import os
 from pathlib import Path
 from typing import Dict
 from typing import Union
@@ -22,7 +23,7 @@ def get_vessel_data(config: Dict[str, Union[str, int]]) -> None:
 
 if __name__ == "__main__":
 	config = {
-		"API_KEY": "955c8d65542b8efb143438a1c8cbcd9e126e0413",
+		"API_KEY": os.getenv("API_KEY"),
 		"PERIOD": "hourly",
 		"DAYS": 2,
 		"FROM_DATE": "2021-03-01 00:00:00",
