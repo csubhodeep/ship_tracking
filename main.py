@@ -4,8 +4,8 @@ import os
 from lib.init_db import DbConnector
 from utils.create_table import create_all_tables
 from utils.extraction import get_ship_data
-from utils.transformation import transform_csv, transform_json
-from utils.loading import load_postion_data, load_engine_data
+from utils.transformation import transform_csv, transform_json, transform_ship_owner
+from utils.loading import load_postion_data, load_engine_data, load_owner_data
 
 from utils.configs import PATH_TO_DATA_FOLDER
 
@@ -26,8 +26,6 @@ MMSI_IDS = ["269057500", "269057489"]
 if __name__ == "__main__":
 	args = get_args()
 	db_conn = DbConnector()
-	# time.sleep(5)
-	# print("Waiting for DB to initialize")
 	if args.create_or_replace_tables:
 		create_all_tables(engine=db_conn.get_engine())
 
@@ -60,3 +58,7 @@ if __name__ == "__main__":
 	# 3. CSV data - engines
 	for ele in transform_csv(path_to_data=PATH_TO_DATA_FOLDER.joinpath("ship_engines.csv"), schema=schema_engine_data):
 		load_engine_data(ele, connector=db_conn)
+
+	# 4. CSV data - owners
+	for ele in transform_ship_owner(path_to_data=PATH_TO_DATA_FOLDER.joinpath("ships_per_owner.csv")):
+		load_owner_data(ele, connector=db_conn)

@@ -3,7 +3,7 @@ from typing import Union, Dict
 
 from lib.init_db import DbConnector
 
-from lib.table_schema import PositionData, ShipEngines
+from lib.table_schema import PositionData, ShipEngines, ShipOwner
 
 from sqlalchemy import and_
 
@@ -34,6 +34,15 @@ def load_engine_data(vals: Dict[str, Union[str, int, float]], connector: DbConne
 	if result.rowcount == 0:
 		ins = ShipEngines.insert().values(**vals)
 		result = connection.execute(ins)
+
+	return True
+
+def load_owner_data(vals: Dict[str, Union[str, int, float]], connector: DbConnector):
+
+	connection = connector.get_connection()
+
+	ins = ShipOwner.insert().values(**vals)
+	result = connection.execute(ins)
 
 	return True
 

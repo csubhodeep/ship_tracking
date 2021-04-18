@@ -44,6 +44,7 @@ ShipOwner = Table('ship_owner',
                   Column('key', Integer, nullable=False, autoincrement=True),
                   Column('SHIP_ID', String, nullable=False),
                   Column('owner', String, nullable=False),
+                  PrimaryKeyConstraint('key'),
                   )
 
 
