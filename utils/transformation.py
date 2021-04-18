@@ -21,7 +21,7 @@ def transform_row(line: str, columns: List[str]) -> Tuple[bool, Union[None, Dict
 	try:
 		transformed_values = {}
 		for col, raw_val in zip(columns, raw_values):
-			transformed_values[col.name] = raw_val if col.name != "TIMESTAMP" else datetime.strptime(raw_val, "%Y-%m-%d %H:%M:%S")
+			transformed_values[col] = raw_val if col != "TIMESTAMP" else datetime.strptime(raw_val, "%Y-%m-%d %H:%M:%S")
 		return True, transformed_values
 	except Exception:
 		return False, None
@@ -54,5 +54,5 @@ def transform_json(path_to_data: Path, schema: List[str]) -> Iterator[Dict[str, 
 	for raw_values_dict in json_obj:
 		transformed_values = {}
 		for col in schema:
-			transformed_values[col.name] = raw_values_dict[col.name] if col.name != "TIMESTAMP" else datetime.strptime(raw_values_dict[col.name], "%Y-%m-%dT%H:%M:%S")
+			transformed_values[col] = raw_values_dict[col] if col != "TIMESTAMP" else datetime.strptime(raw_values_dict[col], "%Y-%m-%dT%H:%M:%S")
 		yield transformed_values
