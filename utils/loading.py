@@ -1,11 +1,11 @@
 
 from typing import Union, Dict
 
-from lib.init_db import DbConnector
+from sqlalchemy import and_
 
+from lib.init_db import DbConnector
 from lib.table_schema import PositionData, ShipEngines, ShipOwner
 
-from sqlalchemy import and_
 
 def load_postion_data(vals: Dict[str, Union[str, int, float]], connector: DbConnector):
 

@@ -2,14 +2,14 @@ from argparse import ArgumentParser
 import os
 
 from lib.init_db import DbConnector
+from lib.table_schema import PositionData, ShipEngines
+from utils.configs import PATH_TO_DATA_FOLDER
 from utils.create_table import create_all_tables
 from utils.extraction import get_ship_data
 from utils.transformation import transform_csv, transform_json, transform_ship_owner
 from utils.loading import load_postion_data, load_engine_data, load_owner_data
 
-from utils.configs import PATH_TO_DATA_FOLDER
 
-from lib.table_schema import PositionData, ShipEngines
 
 def get_args():
 	arg_parser = ArgumentParser()
@@ -40,7 +40,7 @@ if __name__ == "__main__":
 			"MMSI": mmsi
 		}
 
-		get_ship_data(config=config)
+		# get_ship_data(config=config)
 
 	schema_position_data = [ele.name for ele in PositionData.c if ele.name != "key"]
 
@@ -62,3 +62,5 @@ if __name__ == "__main__":
 	# 4. CSV data - owners
 	for ele in transform_ship_owner(path_to_data=PATH_TO_DATA_FOLDER.joinpath("ships_per_owner.csv")):
 		load_owner_data(ele, connector=db_conn)
+
+	# 5. EXTRACT -
