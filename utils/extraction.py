@@ -1,5 +1,4 @@
 from json import dump
-import os
 from pathlib import Path
 from typing import Dict
 from typing import Union
@@ -19,16 +18,3 @@ def get_ship_data(config: Dict[str, Union[str, int]]) -> None:
 
 	with open(file_path, 'w') as f:
 		dump(response_data, f)
-
-
-if __name__ == "__main__":
-	config = {
-		"API_KEY": os.getenv("API_KEY"),
-		"PERIOD": "hourly",
-		"DAYS": 2,
-		"FROM_DATE": "2021-03-01 00:00:00",
-		"TO_DATE": "2021-03-02 23:59:59",
-		"MMSI": "269057500"
-	}
-
-	get_ship_data(config=config)

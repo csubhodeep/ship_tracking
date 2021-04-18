@@ -13,7 +13,7 @@ PositionData = Table('position_data',
                      metadata,
                      Column('key', Integer, nullable=False, autoincrement=True),
                      Column('TIMESTAMP', DateTime, nullable=False),
-                     Column('SHIP_ID', String, nullable=False),
+                     Column('SHIP_ID', String),
                      Column('LON', Float),
                      Column('LAT', Float),
                      Column('SPEED', Float),
@@ -23,13 +23,12 @@ PositionData = Table('position_data',
                      Column('HEADING', Integer),
                      Column('MMSI', Integer),
                      PrimaryKeyConstraint('key'),
-                     CheckConstraint("scale IN ('Alpha', 'EU')")
                      )
 
 ShipEngines = Table('ship_engines',
                     metadata,
                     Column('key', Integer, nullable=False, autoincrement=True),
-                    Column('SHIP_ID', String, nullable=False),
+                    Column('SHIP_ID', String),
                     Column('MMSI', Integer),
                     Column('engine1_id', Integer),
                     Column('engine1_name', Integer),
@@ -38,7 +37,6 @@ ShipEngines = Table('ship_engines',
                     Column('engine3_id', Integer),
                     Column('engine3_name', Integer),
                     PrimaryKeyConstraint('key'),
-                    CheckConstraint("scale IN ('Alpha', 'EU')")
                     )
 
 ShipOwner = Table('ship_owner',
