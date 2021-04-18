@@ -42,7 +42,7 @@ if __name__ == "__main__":
 			"MMSI": mmsi
 		}
 
-		# get_ship_data(config=config)
+		get_ship_data(config=config)
 
 	schema = [ele for ele in PositionData.c if ele.name != "key"]
 
