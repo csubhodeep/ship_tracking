@@ -4,10 +4,12 @@ import os
 from lib.init_db import DbConnector
 from utils.create_table import create_all_tables
 from utils.extraction import get_ship_data
-from utils.transformation import transform_csv
+from utils.transformation import transform_csv, transform_json
 from utils.loading import load_postion_data
 
-from utils.configs import PATH_TO_DATA_FOLDER, POSITION_DATA_SCHEMA
+from utils.configs import PATH_TO_DATA_FOLDER
+
+from lib.table_schema import PositionData
 
 def get_args():
 	arg_parser = ArgumentParser()
@@ -42,7 +44,14 @@ if __name__ == "__main__":
 
 		# get_ship_data(config=config)
 
+	schema = [ele for ele in PositionData.c if ele.name != "key"]
+
 	## TRANSFORM & LOAD
-	# 1. transform CSV data
-	# for ele in transform_csv(path_to_data=PATH_TO_DATA_FOLDER.joinpath("position_data.csv"), schema=POSITION_DATA_SCHEMA):
-	# 	load_postion_data(ele, connector=db_conn)
+	# 1. CSV data
+	for ele in transform_csv(path_to_data=PATH_TO_DATA_FOLDER.joinpath("position_data.csv"), schema=schema):
+		load_postion_data(ele, connector=db_conn)
+
+	# 2. JSON data
+	for mmsi in MMSI_IDS:
+		for ele in transform_json(path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"position_{mmsi}.json"), schema=schema):
+			load_postion_data(ele, connector=db_conn)
