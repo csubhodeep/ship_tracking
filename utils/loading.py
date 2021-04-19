@@ -4,7 +4,7 @@ from typing import Union, Dict
 from sqlalchemy import and_
 
 from lib.init_db import DbConnector
-from lib.table_schema import PositionData, ShipEngines, ShipOwner
+from lib.table_schema import PositionData, ShipEngines, ShipOwner, EngineTechSpecs
 
 
 def load_postion_data(vals: Dict[str, Union[str, int, float]], connector: DbConnector):
@@ -37,7 +37,7 @@ def load_engine_data(vals: Dict[str, Union[str, int, float]], connector: DbConne
 
 	return True
 
-def load_owner_data(vals: Dict[str, Union[str, int, float]], connector: DbConnector):
+def load_owner_data(vals: Dict[str, str], connector: DbConnector):
 
 	connection = connector.get_connection()
 
@@ -46,3 +46,11 @@ def load_owner_data(vals: Dict[str, Union[str, int, float]], connector: DbConnec
 
 	return True
 
+def load_engine_tech_specs(vals: Dict[str, str], connector: DbConnector):
+
+	connection = connector.get_connection()
+
+	ins = EngineTechSpecs.insert().values(**vals)
+	result = connection.execute(ins)
+
+	return True

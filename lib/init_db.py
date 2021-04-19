@@ -16,7 +16,7 @@ class DbConnector:
 				 driver: str = "psycopg2",
 				 port: int = 5432,
 				 host: str = "0.0.0.0",
-				 db_name_prefix: str = "tracking_db"):
+				 db_name: str = "ship_data"):
 		self._session = None
 		self._user_id = os.getenv('TRACKING_DB_USER', user_id)
 		self._password = os.getenv('TRACKING_DB_PASSWORD', password)
@@ -26,13 +26,13 @@ class DbConnector:
 		self._driver = driver
 		self._port = port
 		self._host = os.getenv('TRACKING_DB_HOST', host)
-		self._db_name = f"{db_name_prefix}_{os.getenv('ENVIRONMENT')}"
+		self._db_name = db_name
 		self._conn = None
 
 	def get_engine(self):
 		if not self._engine:
 			if self._dialect == "sqlite":
-				link = f"{self._dialect}:////{PATH_TO_DATA_FOLDER}/ship_data.db"
+				link = f"{self._dialect}:////{PATH_TO_DATA_FOLDER}/{self._db_name}.db"
 			else:
 				link = f"{self._dialect}+{self._driver}://{self._user_id}:{self._password}@{self._host}:{self._port}/{self._db_name}"
 			self._engine = create_engine(link)

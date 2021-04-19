@@ -47,5 +47,16 @@ ShipOwner = Table('ship_owner',
                   PrimaryKeyConstraint('key'),
                   )
 
+EngineTechSpecs = Table('engine_tech_specs',
+                        metadata,
+                        Column('key', Integer, nullable=False, autoincrement=True),
+                        Column('Min. Rating', String, nullable=False),
+                        Column('Max. Rating', String, nullable=False),
+                        Column('Voltage', String, nullable=False),
+                        Column('Frequency', String, nullable=False),
+                        Column('Speed', String, nullable=False),
+                        PrimaryKeyConstraint('key'),
+                        )
+
 
 
