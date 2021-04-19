@@ -1,7 +1,7 @@
 from json import dump
+import os
 from pathlib import Path
 from typing import Dict
-from typing import List
 from typing import Tuple
 from typing import Union
 
@@ -10,6 +10,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import requests
 
 from configs import API_ENDPOINT_URL
+from utils.page_parser import parse_tech_specs
 
 
 def get_ship_data(config: Dict[str, Union[str, int]], path_to_data: Path) -> None:
@@ -24,20 +25,18 @@ def get_ship_data(config: Dict[str, Union[str, int]], path_to_data: Path) -> Non
 
 def extract_tech_specs(source_uri: str) -> Dict[str, float]:
 
-	return {
-		"Engine Model": "",
-		"Min. Rating": "",
-		"Max. Rating": "",
-		"Voltage": "",
-		"Frequency": "",
-		"Speed": ""
-	}
+	# html_page = requests.get(url=source_uri).text
+
+	html_page = os.popen(f"curl -X GET {source_uri}").read()
+
+
+	return parse_tech_specs(html_page)
 
 
 def extract_product_links(source_uri: str) -> Tuple[str, ...]:
 
 	return (
-		"https://www.finning.com/en_CA/products/new/power-systems/electric-power-generation/diesel-generator-sets/1000001869.html",
+		"https://www.finning.com/en_CA/products/new/power-systems/electric-power-generation/diesel-generator-sets/1000033110.html",
 		"https://www.finning.com/en_CA/products/new/power-systems/electric-power-generation/diesel-generator-sets/1000001866.html"
 	)
 
