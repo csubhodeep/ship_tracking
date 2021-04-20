@@ -2,6 +2,7 @@
 from typing import Dict, List
 from bs4 import BeautifulSoup
 
+
 def parse_tech_specs(page: str) -> Dict[str, str]:
 
     soup = BeautifulSoup(page, 'html.parser')

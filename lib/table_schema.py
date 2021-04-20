@@ -2,7 +2,7 @@
 
 from sqlalchemy import (MetaData, Table, Column,
                         Integer, DateTime, Float, String,
-                        PrimaryKeyConstraint, CheckConstraint)
+                        PrimaryKeyConstraint)
 
 
 metadata = MetaData()
