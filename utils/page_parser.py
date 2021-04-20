@@ -1,35 +1,39 @@
 
+from typing import Dict, List
 from bs4 import BeautifulSoup
 
-def parse_tech_specs(page: str):
+def parse_tech_specs(page: str) -> Dict[str, str]:
 
     soup = BeautifulSoup(page, 'html.parser')
 
-    tags = list(soup.findAll("div",{"class":"product-specs-category"}))
+    tags = soup.findAll("div",{"class":"product-specs-category"})
 
-    engine_specs = tags[1]
+    model_specs = tags[1].findAll("div", {"class": "spec spaced-spec"})
 
-    engine_model = engine_specs.span.text
+    engine_model = ""
+    for ele in model_specs:
+        if ele.strong.text == "Engine Model":
+            engine_model = ele.span.text
+
 
     product_specs = tags[0].findAll("div", {"class": "spec spaced-spec"})
 
-    minimum_rating = product_specs[0].span.text
+    result = {ele.strong.text:ele.span.text for ele in product_specs}
 
-    maximum_rating = product_specs[1].span.text
+    result["Engine Model"] = engine_model
 
-    frequency = product_specs[4].span.text
-
-    voltage = product_specs[3].span.text
-
-    speed = product_specs[5].span.text
-
-    return {
-        "Engine Model": engine_model,
-        "Frequency": frequency,
-        "Max. Rating": maximum_rating,
-        "Min. Rating": minimum_rating,
-        "Speed": speed,
-        "Voltage": voltage
-    }
+    return result
 
 
+def parse_links(page: str) -> List[str]:
+
+    soup = BeautifulSoup(page, 'html.parser')
+
+    tags = list(soup.findAll("div", {"class": "parbase productCards productCardTop3Specs selector-container"}))
+
+    soup2 = BeautifulSoup(str(tags[0]), 'html.parser')
+
+    tags = list(soup2.findAll("li"))
+
+
+    return [tags[i].a["href"].lstrip("/") for i in range(242)]

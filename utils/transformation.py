@@ -50,10 +50,16 @@ def transform_json(path_to_data: Path, schema: List[str]) -> Iterator[Dict[str, 
 		json_obj = json.load(f)
 
 	for raw_values_dict in json_obj:
-		transformed_values = {}
-		for col in schema:
-			transformed_values[col] = raw_values_dict[col] if col != "TIMESTAMP" else datetime.strptime(raw_values_dict[col], "%Y-%m-%dT%H:%M:%S")
-		yield transformed_values
+		if raw_values_dict:
+			transformed_values = {}
+			for col in schema:
+				try:
+					transformed_values[col] = raw_values_dict[col] if col != "TIMESTAMP" else datetime.strptime(raw_values_dict[col], "%Y-%m-%dT%H:%M:%S")
+				except KeyError:
+					transformed_values[col] = None
+			yield transformed_values
+		else:
+			yield None
 
 
 def transform_ship_owner(path_to_data: Path) -> Iterator[Dict[str, str]]:
@@ -62,6 +68,9 @@ def transform_ship_owner(path_to_data: Path) -> Iterator[Dict[str, str]]:
 		for line_no, line in enumerate(f):
 			if line_no:
 				for i, ship_id in enumerate(line.split(",")):
-					yield {"owner": owners[i], "SHIP_ID": ship_id}
+					if ship_id:
+						yield {"owner": owners[i], "SHIP_ID": ship_id}
+					else:
+						pass
 			else:
 				owners = line.split(",")

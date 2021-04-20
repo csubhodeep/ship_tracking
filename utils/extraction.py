@@ -1,16 +1,19 @@
+import urllib.error
 from json import dump
 import os
 from pathlib import Path
 from typing import Dict
-from typing import Tuple
+from typing import List
 from typing import Union
+from urllib.request import urlopen
+from urllib.parse import urljoin, urlparse
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import requests
 
 from configs import API_ENDPOINT_URL
-from utils.page_parser import parse_tech_specs
+from utils.page_parser import parse_tech_specs, parse_links
 
 
 def get_ship_data(config: Dict[str, Union[str, int]], path_to_data: Path) -> None:
@@ -23,28 +26,33 @@ def get_ship_data(config: Dict[str, Union[str, int]], path_to_data: Path) -> Non
 		dump(response_data, f)
 
 
-def extract_tech_specs(source_uri: str) -> Dict[str, float]:
+def extract_tech_specs(source_uri: str) -> Dict[str, str]:
 
-	# html_page = requests.get(url=source_uri).text
+	try:
+		html_page = urlopen(url=source_uri).read()
+	except urllib.error.URLError as ex:
+		print(f"Could not fetch tech specs for - {source_uri}. Error - {ex}")
+		return None
 
-	html_page = os.popen(f"curl -X GET {source_uri}").read()
+	try:
+		res = parse_tech_specs(html_page)
+		# Below field is added for QA purposes only
+		res['source_page'] = source_uri
+		return res
+	except Exception as ex:
+		print(f"Could not fetch tech specs for - {source_uri}. Error - {ex}")
 
 
-	return parse_tech_specs(html_page)
+def extract_product_links(source_uri: str) -> List[str]:
 
+	html_page = urlopen(url=source_uri).read()
 
-def extract_product_links(source_uri: str) -> Tuple[str, ...]:
-
-	return (
-		"https://www.finning.com/en_CA/products/new/power-systems/electric-power-generation/diesel-generator-sets/1000033110.html",
-		"https://www.finning.com/en_CA/products/new/power-systems/electric-power-generation/diesel-generator-sets/1000001866.html"
-	)
+	return parse_links(html_page)
 
 
 def get_engine_tech_specs(source_uri: str, path_to_data: Path) -> None:
 
-	urls = extract_product_links(source_uri)
-
+	urls = [urljoin(base="https://"+urlparse(source_uri).netloc+"/", url=ele) for ele in extract_product_links(source_uri)]
 
 	res = []
 	with ThreadPoolExecutor() as executor:

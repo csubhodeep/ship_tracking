@@ -40,7 +40,7 @@ if __name__ == "__main__":
 			"MMSI": mmsi
 		}
 
-		get_ship_data(config=config, path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"position_{config['MMSI']}.json"))
+		# get_ship_data(config=config, path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"position_{config['MMSI']}.json"))
 
 
 	## TRANSFORM & LOAD
@@ -77,5 +77,6 @@ if __name__ == "__main__":
 	## LOAD
 	schema_engine_tech_specs = [ele.name for ele in EngineTechSpecs.c if ele.name != "key"]
 	for ele in transform_json(path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"engine_data.json"), schema=schema_engine_tech_specs):
-		load_engine_tech_specs(ele, connector=db_conn)
-		# pass
+		if ele:
+			load_engine_tech_specs(ele, connector=db_conn)
+			# pass
