@@ -47,36 +47,37 @@ if __name__ == "__main__":
 	schema_position_data = [ele.name for ele in PositionData.c if ele.name != "key"]
 	# 1. CSV data - position
 	for ele in transform_csv(path_to_data=PATH_TO_DATA_FOLDER.joinpath("position_data.csv"), schema=schema_position_data):
-		load_postion_data(ele, connector=db_conn)
-		# pass
+		# load_postion_data(ele, connector=db_conn)
+		pass
 
 
 	# 2. JSON data - position
 	for mmsi in MMSI_IDS:
 		for ele in transform_json(path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"position_{mmsi}.json"), schema=schema_position_data):
-			load_postion_data(ele, connector=db_conn)
-			# pass
+			# load_postion_data(ele, connector=db_conn)
+			pass
 
 
 	# 3. CSV data - engines
 	schema_engine_data = [ele.name for ele in ShipEngines.c if ele.name != "key"]
 	for ele in transform_csv(path_to_data=PATH_TO_DATA_FOLDER.joinpath("ship_engines.csv"), schema=schema_engine_data):
-		load_engine_data(ele, connector=db_conn)
-		# pass
+		# load_engine_data(ele, connector=db_conn)
+		pass
 
 	# 4. CSV data - owners
 	for ele in transform_ship_owner(path_to_data=PATH_TO_DATA_FOLDER.joinpath("ships_per_owner.csv")):
-		load_owner_data(ele, connector=db_conn)
+		if ele:
+			load_owner_data(ele, connector=db_conn)
 		# pass
 
 
 	## EXTRACT - engine tech specs from webpage
-	get_engine_tech_specs(source_uri=WEB_PAGE_ADDRESS, path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"engine_data.json"))
+	# get_engine_tech_specs(source_uri=WEB_PAGE_ADDRESS, path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"engine_data.json"))
 
 
 	## LOAD
 	schema_engine_tech_specs = [ele.name for ele in EngineTechSpecs.c if ele.name != "key"]
 	for ele in transform_json(path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"engine_data.json"), schema=schema_engine_tech_specs):
 		if ele:
-			load_engine_tech_specs(ele, connector=db_conn)
-			# pass
+			# load_engine_tech_specs(ele, connector=db_conn)
+			pass

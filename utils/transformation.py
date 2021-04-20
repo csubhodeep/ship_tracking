@@ -71,6 +71,6 @@ def transform_ship_owner(path_to_data: Path) -> Iterator[Dict[str, str]]:
 					if ship_id:
 						yield {"owner": owners[i], "SHIP_ID": ship_id}
 					else:
-						pass
+						yield None
 			else:
 				owners = line.split(",")
