@@ -53,7 +53,8 @@ if __name__ == "__main__":
     for mmsi in MMSI_IDS:
         for ele in transform_json(path_to_data=PATH_TO_DATA_FOLDER.joinpath(f"position_{mmsi}.json"),
                                   schema=schema_position_data):
-            load_postion_data(ele, connector=db_conn)
+            if ele:
+                load_postion_data(ele, connector=db_conn)
         # pass
 
     # 3. CSV data - engines

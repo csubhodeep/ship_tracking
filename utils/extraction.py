@@ -1,10 +1,10 @@
-import urllib.error
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from json import dump
 from pathlib import Path
 from typing import Dict
 from typing import List
 from typing import Union
+from urllib.error import URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import urlopen
 
@@ -27,7 +27,7 @@ def get_ship_data(config: Dict[str, Union[str, int]], path_to_data: Path) -> Non
 def extract_tech_specs(source_uri: str) -> Dict[str, str]:
     try:
         html_page = urlopen(url=source_uri).read()
-    except urllib.error.URLError as ex:
+    except URLError as ex:
         print(f"Could not fetch tech specs for - {source_uri}. Error - {ex}")
         return None
 
