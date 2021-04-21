@@ -1,8 +1,7 @@
-
 from lib.table_schema import metadata
 
-def create_all_tables(engine):
 
+def create_all_tables(engine):
     try:
         for table in metadata.sorted_tables:
             if table.exists(bind=engine):

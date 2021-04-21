@@ -1,12 +1,8 @@
-
-
 from sqlalchemy import (MetaData, Table, Column,
                         Integer, DateTime, Float, String,
                         PrimaryKeyConstraint)
 
-
 metadata = MetaData()
-
 
 PositionData = Table('position_data',
                      metadata,
@@ -58,6 +54,3 @@ EngineTechSpecs = Table('engine_tech_specs',
                         Column('Speed', String),
                         PrimaryKeyConstraint('key'),
                         )
-
-
-
