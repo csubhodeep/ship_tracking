@@ -8,7 +8,6 @@ from sqlalchemy import (MetaData, Table, Column,
 metadata = MetaData()
 
 
-# the following table is created to record the recos that user has finally bought and selected to buy
 PositionData = Table('position_data',
                      metadata,
                      Column('key', Integer, nullable=False, autoincrement=True),
