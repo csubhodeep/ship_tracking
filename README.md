@@ -1,11 +1,11 @@
-# zeppelin_task
+# Tasks
 
 #### Preliminary remark
 
 There is no right or wrong way to solve the tasks. We are not looking for fancy presentations or highly efficient code,
 but for an impression of your working style. Please present the results as you would show them to a colleague in
 everyday life. Develop one or more executable programs/scripts with Python, whether command line driven or with GUI is
-up to you. If you have any questions, please contact julian.steiner@zeppelin.com
+up to you.
 
 ## 1. Task: API Implementation and Database design
 
