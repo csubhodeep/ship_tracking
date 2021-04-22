@@ -15,8 +15,8 @@ from utils.page_parser import parse_tech_specs, parse_links
 
 
 def get_ship_data(config: Dict[str, Union[str, int]], path_to_data: Path) -> None:
-    """This function makes an API call to the marinetraffic endpoint and saves the data received as results on disk.
-    :param config: Its a dict of values to pass while making the API call
+    """This function makes an API call to the marinetraffic endpoint and saves the data received on disk.
+    :param config: Its a dict of values to fill in the URL while making the API call
     """
     response_data = requests.get(url=API_ENDPOINT_URL.format(**config)).json()
 
@@ -25,6 +25,10 @@ def get_ship_data(config: Dict[str, Union[str, int]], path_to_data: Path) -> Non
 
 
 def extract_tech_specs(source_uri: str) -> Dict[str, str]:
+    """This function extracts relevant values from an HTML page.
+    :param source_uri: The URL of the webpage
+    :return: a dict containing all the relevant values
+    """
     try:
         html_page = urlopen(url=source_uri).read()
     except URLError as ex:
@@ -41,12 +45,23 @@ def extract_tech_specs(source_uri: str) -> Dict[str, str]:
 
 
 def extract_product_links(source_uri: str) -> List[str]:
+    """This function extracts all the relevant links from the web-page
+    :param source_uri: the URL of the webpage to crawl
+    :return: A list of URLs to be used for extracting values.
+    """
     html_page = urlopen(url=source_uri).read()
 
     return parse_links(html_page)
 
 
 def get_engine_tech_specs(source_uri: str, path_to_data: Path) -> None:
+    """This is the main function that does the following:
+        1. Extracts URLs of all engines from a webpage
+        2. Paralely fetch the relevant values from each page corresponding to the links collected in step 1.
+    :param source_uri: The base URL of the webpage
+    :param path_to_data: Path to the data
+    :return:
+    """
     urls = [urljoin(base="https://" + urlparse(source_uri).netloc + "/", url=ele) for ele in
             extract_product_links(source_uri)]
 

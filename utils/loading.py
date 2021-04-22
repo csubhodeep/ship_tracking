@@ -7,6 +7,10 @@ from lib.table_schema import PositionData, ShipEngines, ShipOwner, EngineTechSpe
 
 
 def load_postion_data(vals: Dict[str, Union[str, int, float]], connector: DbConnector):
+    """This function loads the position details of a vessel into its respective table in the DB
+    :param vals: the row-tuple containing all the values
+    :param connector: the class to connect to the DB
+    """
     connection = connector.get_connection()
 
     upds = PositionData.update().where(and_(PositionData.c.SHIP_ID == vals["SHIP_ID"],
@@ -18,10 +22,12 @@ def load_postion_data(vals: Dict[str, Union[str, int, float]], connector: DbConn
         ins = PositionData.insert().values(**vals)
         result = connection.execute(ins)
 
-    return True
-
 
 def load_engine_data(vals: Dict[str, Union[str, int, float]], connector: DbConnector):
+    """This function loads the engine details of a vessel into its respective table in the DB
+    :param vals: the row-tuple containing all the values
+    :param connector: the class to connect to the DB
+    """
     connection = connector.get_connection()
 
     upds = ShipEngines.update().where(and_(ShipEngines.c.SHIP_ID == vals["SHIP_ID"],
@@ -33,22 +39,24 @@ def load_engine_data(vals: Dict[str, Union[str, int, float]], connector: DbConne
         ins = ShipEngines.insert().values(**vals)
         result = connection.execute(ins)
 
-    return True
-
 
 def load_owner_data(vals: Dict[str, str], connector: DbConnector):
+    """This function loads the owner details of a vessel into its respective table in the DB
+    :param vals: the row-tuple containing all the values
+    :param connector: the class to connect to the DB
+    """
     connection = connector.get_connection()
 
     ins = ShipOwner.insert().values(**vals)
     result = connection.execute(ins)
 
-    return True
-
 
 def load_engine_tech_specs(vals: Dict[str, str], connector: DbConnector):
+    """This function loads the engine-tech-spec details of a vessel into its respective table in the DB
+    :param vals: the row-tuple containing all the values
+    :param connector: the class to connect to the DB
+    """
     connection = connector.get_connection()
 
     ins = EngineTechSpecs.insert().values(**vals)
     result = connection.execute(ins)
-
-    return True

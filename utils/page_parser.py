@@ -4,6 +4,10 @@ from bs4 import BeautifulSoup
 
 
 def parse_tech_specs(page: str) -> Dict[str, str]:
+    """This function scrapes the engine tech specs from a single page
+    :param page: the HTML page as a long running string
+    :return: a dict containing all the relevant elements
+    """
     soup = BeautifulSoup(page, 'html.parser')
 
     tags = soup.findAll("div", {"class": "product-specs-category"})
@@ -25,6 +29,10 @@ def parse_tech_specs(page: str) -> Dict[str, str]:
 
 
 def parse_links(page: str) -> List[str]:
+    """This function scrapes all the links in the base page
+    :param page: the HTML page as a long running string
+    :return: a list of links to the page for each engine details
+    """
     soup = BeautifulSoup(page, 'html.parser')
 
     tags = list(soup.findAll("div", {"class": "parbase productCards productCardTop3Specs selector-container"}))

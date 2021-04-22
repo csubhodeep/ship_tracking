@@ -24,6 +24,8 @@ MMSI_IDS = ["269057500", "269057489"]
 
 if __name__ == "__main__":
     args = get_args()
+
+    # initialize the connection to the DB and create all the tables
     db_conn = DbConnector()
     if args.create_or_replace_tables:
         create_all_tables(engine=db_conn.get_engine())
