@@ -10,6 +10,7 @@ from utils.extraction import get_ship_data, get_engine_tech_specs
 from utils.loading import load_postion_data, load_engine_data, load_owner_data, load_engine_tech_specs
 from utils.transformation import transform_csv, transform_json, transform_ship_owner
 
+logging.basicConfig(level=logging.INFO)
 
 
 def get_args():
