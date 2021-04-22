@@ -35,3 +35,10 @@ Answer the following questions using SQL queries (each without the data retrieve
 - Show the ranking of the engine types (engine_name) in relation to the maximum speed shown. Does this ranking
   correspond to the maximum power output from the technical specifications? Note: The timestamp only shows the entry in
   the database. The speed value is always the average of the full previous hour.
+  
+## For running locally
+
+This project needs Python v3.8 to run.
+
+1. Make and activate a virtual environment and install all the dependencies as per the `requirements.txt`.
+2. Run - `python3 main.py` from the shell from the root directory of this project.
